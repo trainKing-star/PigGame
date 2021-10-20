@@ -1,0 +1,177 @@
+*{
+    margin:0;
+    padding:0
+}
+
+html{
+    font-size: 2.6vh;
+}
+
+/*去除a标签下划线*/
+a, a:link, a:visited, a:hover, a:active, a:focus{
+    text-decoration: none;
+    color: #000000;
+}
+
+@keyframes body {
+    0% {
+        background-color: #000000;
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+        background-color: #50BFA7;
+    }
+}
+
+body{
+    display: flex;
+    flex-direction: column;
+    animation-name: body;
+    animation-duration: 4s;
+    animation-fill-mode: forwards;
+}
+
+.main {
+    display: flex;
+    flex: 1;
+}
+
+header{
+    display: flex;
+    justify-content: space-between;
+    padding-right: 2vw;
+    padding-left: 2vw;
+}
+
+header .left img{
+    width: auto;
+    height: auto;
+    max-width: 8vw;
+}
+
+header .item{
+    display: flex;
+    justify-content: flex-end;
+    color: #ffffff;
+    padding-top: 2vh;
+}
+
+header .item p:first-child{
+    padding-right: 2vw;
+}
+
+header .item div{
+    border: rgba(255,255,255,0);
+    width: 20vw;
+    height: 4vh;
+    background-color: rgba(255,255,255, 0.5);
+    border-radius: 2vh;
+    display: flex;
+    color: #000000;
+    justify-content: space-between;
+}
+
+header .item div .text{
+    opacity: 50%;
+}
+
+header .item div img{
+    height: 4vh;
+}
+
+.main{
+    display: flex;
+    justify-content: flex-start;
+}
+
+.main #element{
+    order: 2;
+    margin-top: 30vh;
+    margin-left: 45vw;
+}
+
+@keyframes jump{
+    0% {transform: translate(0, 0);}
+    50% {transform: translate(0, -1vh);}
+    100% {transform: translate(0, 0);}
+}
+
+.main img{
+    width: auto;
+    height: auto;
+    max-width: 5vw;
+    animation-name: jump;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+}
+
+@keyframes dump{
+    0% {transform: translate(0, 0);}
+    50% {transform: translate(0, 1vh);}
+    100% {transform: translate(0, 0);}
+}
+
+.main canvas{
+    width: auto;
+    height: auto;
+    max-width: 5vw;
+    animation-name: dump;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+}
+
+@keyframes jump_card{
+    0% {transform: translate(0, 0) rotateX(-180deg);}
+    50% {transform: translate(0, 1vh) rotateX(-180deg);}
+    100% {transform: translate(0, 0) rotateX(-180deg);}
+}
+
+#container{
+    position: absolute;
+    top: 53vh;
+    left: 42vw;
+    animation-name: jump_card;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+}
+
+footer {
+    display: flex;
+    flex-direction: column;
+    align-self: flex-end;
+    margin-bottom: 5vh;
+    margin-right: 20vh;
+}
+
+footer div{
+    border: rgba(255,255,255,0);
+    width: 20vw;
+    height: 4vh;
+    background-color: rgba(255,255,255, 0.8);
+    border-radius: 2vh;
+    text-align: center;
+    color: #000000;
+    margin-bottom: 2vh;
+    box-shadow: 0.5vh 0.75vh 0.5vh 0 rgba(0,0,0, 0.46);
+}
+
+footer div:first-child{
+    font-weight: bold;
+    background-color: rgba(255,255,255, 0);
+    box-shadow: 0 0 0 0;
+}
+
+.button{
+    background-color: rgba(255,255,255, 0.8);
+}
+
+.button:hover{
+    background-color: #D30070;
+    color: #ffffff;
+}
+
+
+a:hover{
+    color: #ffffff;
+}

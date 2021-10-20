@@ -1,0 +1,257 @@
+*{
+    margin:0;
+    padding:0
+}
+
+html{
+    font-size: 3.5vh;
+}
+
+/*去除a标签下划线*/
+a, a:link, a:visited, a:hover, a:active, a:focus{
+    text-decoration: none;
+    color: #000000;
+}
+
+@keyframes body {
+    0% {
+        opacity: 0;
+        transform: scale(1);
+        background:url(../static/background.png) no-repeat;
+        width:100%;
+        height:100%;
+        background-size:100% 100%;
+        filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='bg-login.png',sizingMethod=scale);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1.2);
+        background:url(../static/background.png) no-repeat;
+        width:100%;
+        height:100%;
+        background-size:100% 100%;
+        filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='bg-login.png',sizingMethod=scale);
+    }
+}
+
+body{
+    display: flex;
+    flex-direction: column;
+    background-color: #000000;
+}
+
+.main{
+    animation-name: body;
+    animation-duration: 4s;
+    animation-fill-mode: forwards;
+    display: flex;
+    justify-content: space-between;
+}
+
+.header{
+    align-self: flex-end;
+    margin-left: 10vw;
+    margin-bottom: 13vh;
+}
+
+.footer{
+    margin-right: 10vw;
+    margin-top: 15vh;
+}
+
+#footer {
+    position: absolute;
+    width: 100%;
+    height: 10vh;
+    top: 85vh;
+ }
+
+#header {
+    position: absolute;
+    width: 100%;
+    height: 10vh;
+    bottom: 85vh;
+}
+
+#container{
+    transform: rotate(-90deg);
+    top: 49.5vh;
+    left: 49vw;
+}
+
+@keyframes player1_change_start {
+    from{top: 73vh;}
+    to{top: 100vh;}
+}
+
+#player1{
+    position: fixed;
+    transform: rotate(-90deg);
+    left: 50vw;
+    top: 73vh;
+    /*animation-name: player1_change_start;*/
+    /*animation-duration: 2s;*/
+    /*animation-fill-mode: forwards;*/
+}
+
+@keyframes player1_change_end {
+    from{top: 100vh;}
+    to{top: 73vh;}
+}
+
+@keyframes player2_change_end {
+    from{bottom: 100vh;}
+    to{bottom: 73vh;}
+}
+
+
+#player2{
+    position: fixed;
+    transform: rotate(90deg);
+    right: 50vw;
+    bottom: 73vh;
+    /*animation-name: player2_change_start;*/
+    /*animation-duration: 2s;*/
+    /*animation-fill-mode: forwards;*/
+}
+
+@keyframes player2_change_start {
+    from{bottom: 73vh;}
+    to{bottom: 100vh;}
+}
+
+.bgImg1{
+    border-radius: 5vw;
+    width:5vw;
+    height:5vw;
+    background: url("../static/brid.svg") no-repeat center;
+    background-size: 6vw;
+}
+
+.bgImg2{
+    border-radius: 5vw;
+    width:5vw;
+    height:5vw;
+    background: url("../static/people.svg") no-repeat center;
+    background-size: 6vw;
+}
+
+@keyframes big_change {
+    0% {box-shadow: 0 0 3px 0 #ffffff;}
+    50% {box-shadow: 0 0 3px 3px #ffffff;}
+    100% {box-shadow: 0 0 3px 0 #ffffff;}
+}
+
+.big{
+    transform: scale(1.5);
+    animation-name: big_change;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+}
+
+.s_big{
+    animation-name: big_change;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+}
+
+@keyframes show {
+    100% {transform: rotate(90deg)}
+}
+
+
+#show{
+    animation-name: show;
+    animation-duration: 2s;
+    animation-fill-mode: forwards;
+}
+
+@keyframes play_show {
+    100% {
+        opacity: 0;
+        transform: translate(-10vh, 2vh) rotate(-90deg);
+    }
+}
+
+.end{
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.8);
+    z-index: 300;
+}
+
+.end .photo{
+    display: flex;
+    flex-direction: row;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    z-index: 10;
+}
+
+.end .photo .di{
+    margin-left: 25vw;
+    margin-top: 25vh;
+}
+
+.text1{
+    margin-top: 5vh;
+    color: #ffffff;
+    font-size: 10vh;
+}
+
+.text2{
+    margin-top: 5vh;
+    color: #ffffff;
+    font-size: 10vh;
+}
+
+.end .photo .img1{
+    border-radius: 5vw;
+    width:10vw;
+    height:10vw;
+    background: url("../static/brid.svg") no-repeat center;
+    background-size: 11vw;
+}
+
+.end .photo .img2{
+    border-radius: 5vw;
+    width:10vw;
+    height:10vw;
+    background: url("../static/people.svg") no-repeat center;
+    background-size: 11vw;
+}
+
+
+@keyframes success {
+    from{transform: scale(0);opacity: 0}
+    to{transform: scale(1);opacity: 1}
+}
+
+.end .success1{
+    position: fixed;
+    margin-left: 35vw;
+    margin-top: 25vh;
+    height:25vw;
+    width: 25vw;
+    background: url("../static/brid_success.svg") no-repeat center;
+    background-size: 25vw 25vw;
+    animation-name: success;
+    animation-duration: 2s;
+    animation-fill-mode: forwards;
+}
+
+.end .success2{
+    position: fixed;
+    margin-left: 35vw;
+    margin-top: 25vh;
+    height:25vw;
+    width: 25vw;
+    background: url("../static/people_success.svg") no-repeat center;
+    background-size: 25vw 25vw;
+    animation-name: success;
+    animation-duration: 2s;
+    animation-fill-mode: forwards;
+}
