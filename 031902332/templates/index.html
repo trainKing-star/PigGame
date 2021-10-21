@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../static/node_modules/deck-of-cards/example/example.css">
+    <link rel="stylesheet" href="../static/css/index.css">
+    <script src="../static/node_modules/deck-of-cards/dist/deck.js"></script>
+    <script src="../static/node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="../static/node_modules/jPlayer/dist/jplayer/jquery.jplayer.min.js" type="text/javascript"></script>
+    <script src="../static/node_modules/reflection.js"></script>
+</head>
+<body>
+    <header>
+        <div class="left">
+            <img src="../static/static/pigtail.png" alt="error"/>
+        </div>
+        <div class="right">
+            <div class="item">
+                <p>先手</p>
+                <div>
+                    <img class="b_left" src="../static/static/button_left.svg" alt="error"/>
+                    <p class="text">1P<p>
+                    <img class="b_right" src="../static/static/button_right.svg" alt="error">
+                </div>
+            </div>
+            <div class="item">
+                <p>惩罚牌</p>
+                <div>
+                    <img class="b_left" src="../static/static/button_left.svg" alt="error"/>
+                    <p class="text">可以出</p>
+                    <img class="b_right" src="../static/static/button_right.svg" alt="error">
+                </div>
+            </div>
+            <div class="item">
+                <p>卡牌类型</p>
+                <div>
+                    <img class="b_left" src="../static/static/button_left.svg" alt="error"/>
+                    <p class="text">——</p>
+                    <img class="b_right" src="../static/static/button_right.svg" alt="error">
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="main">
+        <div id="element">
+            <img src="../static/static/pig.svg" class="reflect rheight100 ropacity100" alt="error"/>
+        </div>
+    </div>
+    <div id="container"></div>
+    <footer>
+        <div>游玩方法</div>
+        <div class="button"><a href="../static/AIVsPlayer.html">单人AI对战</a></div>
+        <div class="button"><a href="../static/LocalPlayerVsPlayer.html">本地双人对战</a></div>
+        <div class="button"><a href="../static/PlayerVsPlayer.html">在线双人对战</a></div>
+        <div class="button"><a href="../static/AIVsAI.html">在线AI对战</a></div>
+    </footer>
+    <div id="jplayer"></div>
+    <script src="../static/js/index.js"></script>
+</body>
+</html>
