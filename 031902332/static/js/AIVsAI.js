@@ -1,20 +1,21 @@
 $(document).ready(function(){
+            // 初始化信息
             let deck_container = init("container");
             let player1 = null, player2 = null;
             deck_container.shuffle();
             deck_container.fan();
             let record = 0, record_suit = null;
             let GAME = 0;
-
+            // 开始主体鼠标事件
             $("#container .card").on("mouseenter", c_seen);
             $("#container .card").on("mouseleave", c_leave);
             $("#container .card").on("mouseup", mouseup);
 
             action_add("div.bgImg1.header.player1");
             background_game();
-
+            // 设置定时函数
             setInterval(background_game, 40 * 1000);
-
+            // 加载各种背景音乐和动画
             function background_game(){
                 let playerc = $("#jplayer");
                 if (playerc.data().jPlayer && playerc.data().jPlayer.internal.ready === true) {
@@ -33,7 +34,6 @@ $(document).ready(function(){
                     });
                 }
             }
-
             function background_get_p(){
                 let playerc = $("#get_p");
                 if (playerc.data().jPlayer && playerc.data().jPlayer.internal.ready === true) {
@@ -52,7 +52,6 @@ $(document).ready(function(){
                     });
                 }
             }
-
             function background_get_success(){
                 let playerc = $("#get_success");
                 if (playerc.data().jPlayer && playerc.data().jPlayer.internal.ready === true) {
@@ -71,7 +70,6 @@ $(document).ready(function(){
                     });
                 }
             }
-
             function background_move(){
                 let playerc = $("#move");
                 if (playerc.data().jPlayer && playerc.data().jPlayer.internal.ready === true) {
@@ -90,15 +88,14 @@ $(document).ready(function(){
                     });
                 }
             }
-
             function action_add(string) {
                 $(string).addClass("big");
             }
-
             function action_remove(string) {
                 $(string).removeClass("big");
             }
 
+            // 主体鼠标事件执行函数
             let c_click = 0;
             function c_seen(card){
                 c_click = 1;
@@ -107,7 +104,6 @@ $(document).ready(function(){
                 card.currentTarget.style["z-index"] = parseInt(card.currentTarget.style["z-index"]) + 200;
                 card.currentTarget.style.transform = origin + "perspective(" + vw * 0.8 + "px) translateZ(" + vw * 0.10 + "px)";
             }
-
             function c_leave(card){
                 if(!c_click) return;
                 let origin = card.currentTarget.style.transform.split(" ");
@@ -115,7 +111,6 @@ $(document).ready(function(){
                 card.currentTarget.style["z-index"] = parseInt(card.currentTarget.style["z-index"]) - 200;
                 card.currentTarget.style.transform = origin;
             }
-
             function mouseup(){
                 if(!c_click || $(this).attr("id") === "show") return;
                 background_move();
@@ -201,6 +196,7 @@ $(document).ready(function(){
                 setTimeout(f, 2000);
             }
 
+            // 触发区鼠标事件
             let click_f = 0;
             $("#footer").mousedown(function (){
                 if(click_f === 0){
@@ -226,7 +222,6 @@ $(document).ready(function(){
                     $("#container .card").on("mouseup", mouseup);
                 }
             });
-
             let click_h = 0;
             $("#header").mousedown(function (){
                 if(click_h === 0){
@@ -253,6 +248,7 @@ $(document).ready(function(){
                 }
             });
 
+            // 玩家鼠标点击事件
             let chick_mp1 = 0;
             function p1_mousedown(t){
                 if(GAME !== 0 || chick_mp1 === 1) return;
@@ -348,7 +344,6 @@ $(document).ready(function(){
                     }
                 });
             }
-
             let chick_mp2 = 0;
             function p2_mousedown(t){
                 if(GAME !== 1 || chick_mp2 === 1) return;
@@ -445,6 +440,7 @@ $(document).ready(function(){
                 });
             }
 
+            // AI行为请求和AI鼠标点击事件函数
             function AI_action(play) {
                 let data_dict = {
                     "pokers_total":0, "pokers_0":0, "pokers_1":0, "pokers_2":0, "pokers_3":0,
@@ -497,7 +493,6 @@ $(document).ready(function(){
 
                 function success(data, textStatus, jqXHR) {
                     let action = data["action"];
-                    console.log(action);
                     let player = null, player_total = null, player_action = null;
                     let p_mousedown = null;
                     if(play === 0){
@@ -551,7 +546,6 @@ $(document).ready(function(){
                     }
                 }
             }
-
             function AI_mouseup(t){
                 background_move();
                 $("#container .card").off("mouseenter");
@@ -635,6 +629,7 @@ $(document).ready(function(){
                 setTimeout(f, 2000);
             }
 
+            // 初始化牌堆
             function player_one_init(player) {
                 background_get_p();
 
@@ -658,8 +653,6 @@ $(document).ready(function(){
                         deck.cards[label.i].unmount();
                     }
                     else if(label.$root){
-                        console.log("33333");
-                        console.log(label);
                         deck_container.cards[label.pos].unmount();
                     }
                 });
@@ -678,8 +671,6 @@ $(document).ready(function(){
 
                 return deck;
             }
-
-
             function init(label) {
                 let $label = document.getElementById(label);
                 let deck = Deck();

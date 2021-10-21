@@ -11,15 +11,28 @@ import pandas as pd
 
 
 def dev_split(dataset_dir, dev_split_size=0.2):
+    """
+    数据分割为训练集和验证集
+    :param dataset_dir: 数据集文件
+    :param dev_split_size: 验证集占数据集比例
+    :return: 分割后训练集和验证机对应的数据
+    """
     data = pd.read_csv(dataset_dir)
     label = data["label"]
+    # 开始分割数据
     x_train, x_dev, y_train, y_dev = train_test_split(data, label, test_size=dev_split_size, random_state=0)
     return x_train, x_dev, y_train, y_dev
 
 
 def load_dev(mode, train_dir):
+    """
+    加载训练集或者验证集
+    :param mode: 是否是训练阶段
+    :param train_dir: 训练集文件
+    :return: 分割后训练集和验证机对应的数据
+    """
     if mode == 'train':
-        # 分离出验证集
+        # 分离出训练集和验证机
         word_train, word_dev, label_train, label_dev = dev_split(train_dir)
     else:
         word_train = None
@@ -38,6 +51,19 @@ def main(train_file, target_dir,
          patience=10,
          max_grad_norm=10.0,
          checkpoint=None):
+    """
+    训练函数
+    :param train_file: 训练数据集文件
+    :param target_dir: 输出文件目录
+    :param input_size: 出入尺寸
+    :param num_labels: 输出标签数
+    :param epochs: 执行迭代数
+    :param batch_size: 输入数据批量大小
+    :param lr: 学习率
+    :param patience: 忍耐次数，达到忍耐次数退出循环
+    :param max_grad_norm: 参数裁剪力度
+    :param checkpoint: 模型参数检查点路径
+    """
     device = torch.device("cuda")
     print(20 * "=", "准备训练 ", 20 * "=")
     # 保存模型的路径
@@ -69,7 +95,9 @@ def main(train_file, target_dir,
             'weight_decay': 0.0
         }
     ]
+    # 设置优化函数AdamW
     optimizer = AdamW(optimizer_grouped_parameters, lr=lr)
+    # 设置学习率策略
     scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode="max",
                                                            factor=0.85, patience=0)
     best_score = 0.0

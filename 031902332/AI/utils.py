@@ -7,25 +7,48 @@ from AI.model import MyModel
 import pandas as pd
 from sklearn.utils import shuffle
 
-def load_model(pretrained_file,
+
+def load_model(checkpoint_file,
                input_size=21,
                num_labels=5,
                device="cpu"):
+    """
+    加载模型
+    :param checkpoint_file: 模型参数检查点路径
+    :param input_size: 输入尺寸
+    :param num_labels: 输出标签数
+    :param device: 使用设备
+    :return: 加载参数后的可用模型
+    """
     model = MyModel(input_size=input_size, num_labels=num_labels, device=device).to(device)
-    checkpoint = torch.load(pretrained_file, map_location=device)
+    checkpoint = torch.load(checkpoint_file, map_location=device)
     model.load_state_dict(checkpoint["model"])
     return model
 
 
 def use_model(model, json_dict):
+    """
+    使用模型进行预测
+    :param model: 输入可用的模型
+    :param json_dict: 输入的字典数据
+    :return:
+    """
+    # 字典数据转化为列表
     data_list = json_transform_data(json_dict)
+    # 转化为模型可用数据并输入模型
     data = torch.tensor(data_list, dtype=torch.float32).reshape(1, -1)
     output = model(data).argmax(dim=1).item()
     if output != 0 and json_dict["player_one_" + str(output - 1)] == 0:
         return 0
     return output
 
+
 def json_transform_data(data):
+    """
+    将输入的字典信息转为列表数据
+    :param data: 输入的字典
+    :return: 可用列表数据
+    """
     data_list = [
         data["pokers_total"],
         data["pokers_0"],
@@ -54,18 +77,30 @@ def json_transform_data(data):
     ]
     return data_list
 
+
 def split_origin_data(input_file, output_file):
+    """
+    将数据按标签对齐到指定数据量
+    :param input_file:输入文件路径
+    :param output_file:输出文件路径
+    :return:
+    """
     data = pd.read_csv(input_file)
+    # 数据按标签分组
     d = data.groupby("label")
     print(d.count())
     new_data = []
+    # 每一组打乱数据后按指定数量筛选数据
     for k, v in d.groups.items():
         sample_data = shuffle(data.loc[v])
         new_data.append(sample_data.iloc[:53000])
+    # 连接数据
     new_data = pd.concat(new_data, ignore_index=True)
     new_data = new_data.reset_index(drop=True)
     print(new_data.groupby("label").count())
+    # 写入文件
     new_data.to_csv(output_file, index=False)
+
 
 def correct_predictions(output_probabilities, targets):
     """
@@ -176,8 +211,10 @@ def train(model, dataloader, optimizer, max_gradient_norm):
         # 如果GPU可以使用，将输入和输出数据移动到 GPU
         seqs, labels = batch_seqs.to(device), batch_labels.to(device)
         optimizer.zero_grad()
+        # 输入模型
         loss, probabilities = model(seqs, labels)
         loss.backward()
+        # 参数裁剪
         nn.utils.clip_grad_norm_(model.parameters(), max_gradient_norm)
         optimizer.step()
         batch_time_avg += time.time() - batch_start
@@ -186,6 +223,7 @@ def train(model, dataloader, optimizer, max_gradient_norm):
         description = "Avg. batch proc. time: {:.4f}s, loss: {:.4f}" \
             .format(batch_time_avg / (batch_index + 1), running_loss / (batch_index + 1))
         tqdm_batch_iterator.set_description(description)
+    # 计算返回参数
     epoch_time = time.time() - epoch_start
     epoch_loss = running_loss / len(dataloader)
     epoch_accuracy = correct_preds / len(dataloader.dataset)

@@ -7,16 +7,25 @@ from AI.model import MyModel
 from AI.data import DataPrecessForSentence
 import pandas as pd
 
-def main(test_file, pretrained_file,
+
+def main(test_file, checkpoint_file,
          input_size=21,
          num_labels=5,
          batch_size=256):
+    """
+    测试模型函数
+    :param test_file:测试数据文件
+    :param checkpoint_file: 模型参数检查点文件
+    :param input_size: 输入尺寸
+    :param num_labels: 输出标签数
+    :param batch_size: 数据输入批量大小
+    """
     device = torch.device("cuda")
     print(20 * "=", " 准备测试 ", 20 * "=")
     if platform == "linux" or platform == "linux2":
-        checkpoint = torch.load(pretrained_file)
+        checkpoint = torch.load(checkpoint_file)
     else:
-        checkpoint = torch.load(pretrained_file, map_location=device)
+        checkpoint = torch.load(checkpoint_file, map_location=device)
     # 从检查站中检索模型参数
     print("\t* 加载测试数据...")
     data = pd.read_csv(test_file)
@@ -27,7 +36,8 @@ def main(test_file, pretrained_file,
     model.load_state_dict(checkpoint["model"])
     print(20 * "=", " 测试模型运行设备: {} ".format(device), 20 * "=")
     batch_time, total_time, accuracy = test(model, test_loader)
-    print("\n-> 平均批处理time: {:.4f}s, total test time: {:.4f}s, accuracy: {:.4f}%\n".format(batch_time, total_time, (accuracy*100)))
+    print("\n-> 平均批处理time: {:.4f}s, total test time: {:.4f}s, accuracy: {:.4f}%\n".format(batch_time, total_time,
+                                                                                          (accuracy * 100)))
 
 
 if __name__ == "__main__":
