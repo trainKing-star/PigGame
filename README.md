@@ -1,5 +1,7 @@
 # 猪尾巴小游戏
 
+[![博客园](https://img.shields.io/badge/博客园-洋洋羊羊-brightgreen.svg)](https://www.cnblogs.com/trainking-star/p/15436881.html)
+
 ## 运行环境
 
 - python==3.7
