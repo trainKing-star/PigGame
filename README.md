@@ -23,6 +23,7 @@
 
 ```
 pip install -r requirements.txt
+pip install torch
 ```
 
 如果pip不能下载torch，建议使用anaconda下载

@@ -1,6 +1,7 @@
 $(document).ready(function(){
             // 初始化信息
             // 主牌堆
+            let url = "http://127.0.0.1:5000";
             let deck_container = init("container");
             // 两个玩家的专属牌堆
             let player1 = null, player2 = null;
@@ -161,7 +162,7 @@ $(document).ready(function(){
                         $("p.text1").text(p1);
                         $("p.text2").text(p2);
                         function index() {
-                            window.location.href = "http://127.0.0.1:5000";
+                            window.location.href = url;
                         }
                         function s1() {
                             $(".success1").css("display", "");
@@ -347,7 +348,7 @@ $(document).ready(function(){
                                 $("p.text2").text(p2);
                                 // 跳转回首页
                                 function index() {
-                                    window.location.href = "http://127.0.0.1:5000";
+                                    window.location.href = url;
                                 }
                                 // 加载结束动画
                                 function s1() {
@@ -453,7 +454,7 @@ $(document).ready(function(){
                                 $("p.text1").text(p1);
                                 $("p.text2").text(p2);
                                 function index() {
-                                    window.location.href = "http://127.0.0.1:5000";
+                                    window.location.href = url;
                                 }
                                 function s1() {
                                     $(".success1").css("display", "");

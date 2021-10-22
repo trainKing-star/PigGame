@@ -1,5 +1,6 @@
 $(document).ready(function(){
             // 初始化信息
+            let url = "http://127.0.0.1:5000";
             let deck_container = init("container");
             let player1 = null, player2 = null;
             deck_container.shuffle();
@@ -160,7 +161,7 @@ $(document).ready(function(){
                         $("p.text1").text(p1);
                         $("p.text2").text(p2);
                         function index() {
-                            window.location.href = "http://127.0.0.1:5000";
+                            window.location.href = url;
                         }
                         function s1() {
                             $(".success1").css("display", "");
@@ -319,7 +320,7 @@ $(document).ready(function(){
                                 $("p.text1").text(p1);
                                 $("p.text2").text(p2);
                                 function index() {
-                                    window.location.href = "http://127.0.0.1:5000";
+                                    window.location.href = url;
                                 }
                                 function s1() {
                                     $(".success1").css("display", "");
@@ -414,7 +415,7 @@ $(document).ready(function(){
                                 $("p.text1").text(p1);
                                 $("p.text2").text(p2);
                                 function index() {
-                                    window.location.href = "http://127.0.0.1:5000";
+                                    window.location.href = url;
                                 }
                                 function s1() {
                                     $(".success1").css("display", "");
@@ -484,7 +485,7 @@ $(document).ready(function(){
 
                 $.ajax({
                   type: 'POST',
-                  url: "http://127.0.0.1:5000/play",
+                  url: url + "/play",
                   contentType: "application/json",
                   data: JSON.stringify(data_dict),
                   success: success,
@@ -591,7 +592,7 @@ $(document).ready(function(){
                         $("p.text1").text(p1);
                         $("p.text2").text(p2);
                         function index() {
-                            window.location.href = "http://127.0.0.1:5000";
+                            window.location.href = url;
                         }
                         function s1() {
                             $(".success1").css("display", "");
