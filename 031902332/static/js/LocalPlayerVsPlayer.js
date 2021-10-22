@@ -1,9 +1,13 @@
 $(document).ready(function(){
             // 初始化信息
+            // 主牌堆
             let deck_container = init("container");
+            // 两个玩家的专属牌堆
             let player1 = null, player2 = null;
+            // 牌堆乱序并且展开成扇形
             deck_container.shuffle();
             deck_container.fan();
+            // 对局信息，记录上一步的信息和当前对局的玩家回合
             let record = 0, record_suit = null;
             let GAME = 0;
             // 鼠标点击事件
@@ -157,7 +161,7 @@ $(document).ready(function(){
                         $("p.text1").text(p1);
                         $("p.text2").text(p2);
                         function index() {
-                            window.location.href = "index.html";
+                            window.location.href = "http://127.0.0.1:5000";
                         }
                         function s1() {
                             $(".success1").css("display", "");
@@ -252,6 +256,7 @@ $(document).ready(function(){
             });
             // 玩家鼠标点击事件
             function p1_mouseenter(card){
+                // 鼠标移到牌上将会z轴上升并且变大
                 let vw = $(window).width();
                 let origin = card.currentTarget.style.transform;
                 card.currentTarget.style["z-index"] = parseInt(card.currentTarget.style["z-index"]) + 200;
@@ -259,6 +264,7 @@ $(document).ready(function(){
                 event.stopPropagation()
             }
             function p1_mouseleave(card){
+                // 鼠标移出牌上将会z轴下降并且变回原大小
                 let origin = card.currentTarget.style.transform.split(" ");
                 origin = origin.slice(0, origin.length - 2).join(" ");
                 card.currentTarget.style["z-index"] = parseInt(card.currentTarget.style["z-index"]) - 200;
@@ -267,11 +273,15 @@ $(document).ready(function(){
             }
             let chick_mp1 = 0;
             function p1_mousedown(){
+                // 鼠标点击事件，信号量参数判断是不是可以行动
                 if(GAME === 1 || chick_mp1 === 1) return;
                 chick_mp1 = 1;
+                // 加载点击音效
                 background_move();
                 let t = $(this);
+                // 遍历玩家牌堆，获取到鼠标点击的牌并进行响应的操作
                 player1.cards.forEach(function (card) {
+                    // 获取到鼠标点击的牌
                     if (card.$el.className === t.attr("class")) {
                         card.unmount();
                         let label = null;
@@ -281,8 +291,10 @@ $(document).ready(function(){
                                 return false
                             }
                         });
+                        // 主牌堆出现一张已使用的牌
                         label.mount($("#container .deck")[0]);
                         label.$el.style["z-index"] = parseInt(label.$el.style["z-index"]) + 200;
+                        // 点击事件结束，逻辑判断并加载对应动画，判断是否结束游戏
                         function f() {
                             let end = 1;
                             deck_container.cards.forEach(function (card){
@@ -293,14 +305,17 @@ $(document).ready(function(){
                                 if(card.$el.style["z-index"] >= 200){
                                     if(record_suit==null) record_suit = card;
                                     else if(card.i !== record_suit.i && card.suit === record_suit.suit){
+                                        // 是否满足收牌条件，进行玩家收牌
                                         if(GAME === 0) player1 = player_one_init("player1");
                                         else player2 = player_one_init("player2");
                                         record_suit = null;
                                     }
+                                    // z轴回归，让新打出牌置于久牌顶
                                     else record_suit = card;
                                     card.$el.style["z-index"] = record;
                                     record++;
                                     c_click = 0;
+                                    // 下一回合相应的玩家动画
                                     if (GAME === 0 ) {
                                         GAME = 1;
                                         action_add("div.bgImg2.footer.player2");
@@ -315,9 +330,11 @@ $(document).ready(function(){
                                 }
                             });
 
+                            // 游戏结束
                             if(end === 1) {
                                 $(".end").css("display", "");
                                 let p1 = 0;
+                                // 玩家的手牌计算
                                 player1.cards.forEach(function (card){
                                     if(card.$root != null) p1++;
                                 });
@@ -325,11 +342,14 @@ $(document).ready(function(){
                                 player2.cards.forEach(function (card){
                                     if(card.$root != null) p2++;
                                 });
+                                // 显示玩家手牌数
                                 $("p.text1").text(p1);
                                 $("p.text2").text(p2);
+                                // 跳转回首页
                                 function index() {
-                                    window.location.href = "index.html";
+                                    window.location.href = "http://127.0.0.1:5000";
                                 }
+                                // 加载结束动画
                                 function s1() {
                                     $(".success1").css("display", "");
                                     $(".photo").css("display", "none");
@@ -338,6 +358,7 @@ $(document).ready(function(){
                                     $(".success2").css("display", "");
                                     $(".photo").css("display", "none");
                                 }
+                                // 定时器设定，保持函数有序执行
                                 if(p1>p2) setInterval(s2, 2000);
                                 else if(p1<p2) setInterval(s1, 2000);
                                 setInterval(index, 5000);
@@ -349,7 +370,7 @@ $(document).ready(function(){
                         return false;
                     }
                 });
-
+                // 禁止事件向上冒泡
                 event.stopPropagation();
             }
             function p2_mouseenter(card){
@@ -432,7 +453,7 @@ $(document).ready(function(){
                                 $("p.text1").text(p1);
                                 $("p.text2").text(p2);
                                 function index() {
-                                    window.location.href = "index.html";
+                                    window.location.href = "http://127.0.0.1:5000";
                                 }
                                 function s1() {
                                     $(".success1").css("display", "");
@@ -507,8 +528,11 @@ $(document).ready(function(){
 
                 return deck;
             }
+            // 主牌堆初始化
             function init(label) {
+                // 获取标签
                 let $label = document.getElementById(label);
+                // 绑定标签
                 let deck = Deck();
                 deck.mount($label);
                 return deck

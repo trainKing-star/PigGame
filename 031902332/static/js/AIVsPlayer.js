@@ -158,7 +158,7 @@ $(document).ready(function(){
                         $("p.text1").text(p1);
                         $("p.text2").text(p2);
                         function index() {
-                            window.location.href = "index.html";
+                            window.location.href = "http://127.0.0.1:5000";
                         }
                         function s1() {
                             $(".success1").css("display", "");
@@ -327,7 +327,7 @@ $(document).ready(function(){
                                 $("p.text1").text(p1);
                                 $("p.text2").text(p2);
                                 function index() {
-                                    window.location.href = "index.html";
+                                    window.location.href = "http://127.0.0.1:5000";
                                 }
                                 function s1() {
                                     $(".success1").css("display", "");
@@ -422,7 +422,7 @@ $(document).ready(function(){
                                 $("p.text1").text(p1);
                                 $("p.text2").text(p2);
                                 function index() {
-                                    window.location.href = "index.html";
+                                    window.location.href = "http://127.0.0.1:5000";
                                 }
                                 function s1() {
                                     $(".success1").css("display", "");
@@ -449,13 +449,14 @@ $(document).ready(function(){
             }
             // AI行为请求和AI鼠标点击事件函数
             function AI_action() {
+                // 初始化传入请求的字典
                 let data_dict = {
                     "pokers_total":0, "pokers_0":0, "pokers_1":0, "pokers_2":0, "pokers_3":0,
                     "used_total":0, "used_0":0, "used_1":0, "used_2":0, "used_3":0, "used_head":0,
                     "player_one_total":0, "player_one_0":0, "player_one_1":0, "player_one_2":0, "player_one_3":0,
                     "player_two_total":0, "player_two_0":0, "player_two_1":0, "player_two_2":0, "player_two_3":0
                 };
-
+                // 计算主牌堆数据
                 deck_container.cards.forEach(function (card) {
                     if(card.$el.style["z-index"] >= 200) {
                         data_dict["used_head"] = card.suit;
@@ -469,7 +470,7 @@ $(document).ready(function(){
                         data_dict["used_" + card.suit] += 1;
                     }
                 });
-
+                // 计算玩家一数据
                 if(player1){
                     player1.cards.forEach(function (card) {
                         if(card.$root){
@@ -478,7 +479,7 @@ $(document).ready(function(){
                         }
                     });
                 }
-
+                // 计算玩家二数据
                 if(player2){
                     player2.cards.forEach(function (card) {
                         if(card.$root){
@@ -488,7 +489,7 @@ $(document).ready(function(){
                     });
                 }
 
-
+                // 进行ajax post请求并传入json数据
                 $.ajax({
                   type: 'POST',
                   url: "http://127.0.0.1:5000/play",
@@ -497,29 +498,30 @@ $(document).ready(function(){
                   success: success,
                   dataType: "json"
                 });
-
+                // 请求成功回调函数
                 function success(data, textStatus, jqXHR) {
                     let action = data["action"];
-                    console.log(action);
                     if(action === 0 || player2 == null || data_dict["player_two_total"] === 0) {
-                        console.log("00000000");
                         let array = new Array();
+                        // 获取主牌堆位置信息
                         deck_container.cards.forEach(function (card) {
                             if(card.$root && card.$el.className === "card"){
                                 array.push(card.pos);
                             }
                         });
+                        // 随机选择一个节点
                         let index = Math.floor(Math.random() * array.length);
                         let z = deck_container.cards[array[index]].$el;
-
+                        // 对这个节点进行动画更新
                         let vw = $(window).width();
                         let origin = z.style["transform"];
                         z.style["z-index"] = parseInt(z.style["z-index"]) + 200;
                         z.style["transform"] = origin + "perspective(" + vw * 0.8 + "px) translateZ(" + vw * 0.10 + "px)";
+                        // 让这个节点执行属于这个节点的鼠标事件
                         AI_mouseup(z);
                     }
                     else{
-                        console.log("11111111");
+                        // 针对请求的数据进行额外处理
                         if(data_dict["player_two_" + (action - 1)] === 0){
                             let array = new Array();
                             player2.cards.forEach(function (card) {
@@ -529,6 +531,7 @@ $(document).ready(function(){
                             });
                             let index = Math.floor(Math.random() * array.length);
                             let z = player2.cards[array[index]].$el;
+                            // 执行属于这个节点的点击事件
                             p2_mousedown(z);
                             return false;
                         }
@@ -542,11 +545,14 @@ $(document).ready(function(){
                     }
                 }
             }
+            // AI主动执行的点击事件
             function AI_mouseup(t){
                 background_move();
+                // 关闭主牌堆事件
                 $("#container .card").off("mouseenter");
                 $("#container .card").off("mouseleave");
                 $("#container .card").off("mouseup");
+                // z节点牌翻面
                 deck_container.cards.forEach(function (card){
                     if(card.$el.style["z-index"] === t.style["z-index"]){
                         card.setSide('front');
@@ -561,19 +567,24 @@ $(document).ready(function(){
                             end = 0;
                             return true;
                         }
+                        // 获取已使用的牌顶牌，并进行判断
                         if(card.$el.style["z-index"] >= 200){
                             if(record_suit==null) record_suit = card;
                             else if(card.i !== record_suit.i && card.suit === record_suit.suit){
+                                // 进行牌堆和玩家手牌的初始化
                                 if(GAME === 0) player1 = player_one_init("player1");
                                 else player2 = player_one_init("player2");
                                 record_suit = null;
                             }
+                            // 让新牌置于牌堆顶
                             else record_suit = card;
                             card.$el.style["z-index"] = record;
                             record++;
                             return false;
                         }
                     });
+
+                    // 结束动画
                     if(end === 1) {
                         $(".end").css("display", "");
                         let p1 = 0;
@@ -587,7 +598,7 @@ $(document).ready(function(){
                         $("p.text1").text(p1);
                         $("p.text2").text(p2);
                         function index() {
-                            window.location.href = "index.html";
+                            window.location.href = "http://127.0.0.1:5000";
                         }
                         function s1() {
                             $(".success1").css("display", "");
@@ -615,7 +626,7 @@ $(document).ready(function(){
                         action_remove("div.bgImg2.footer.player2");
                         action_add("div.bgImg1.header.player1");
                     }
-
+                    // 开启主牌堆事件
                     $("#container .card").on("mouseenter", c_seen);
                     $("#container .card").on("mouseleave", c_leave);
                     $("#container .card").on("mouseup", mouseup);
@@ -646,8 +657,6 @@ $(document).ready(function(){
                         deck.cards[label.i].unmount();
                     }
                     else if(label.$root){
-                        console.log("33333");
-                        console.log(label);
                         deck_container.cards[label.pos].unmount();
                     }
                 });

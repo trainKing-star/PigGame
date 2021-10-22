@@ -1,5 +1,11 @@
-torch == 1.9.0
-pandas == 1.2.4
-transformers == 4.9.2
-scikit-learn == 0.20.4
-tqdm == 4.61.0
+torch==1.9.0
+pandas==1.2.4
+transformers==4.9.2
+scikit-learn==0.20.4
+tqdm==4.61.0
+Flask-SocketIO==5.1.1
+eventlet==0.32.0
+greenlet==1.1.2
+Flask==2.0.1
+Flask-Cors==3.0.10
+pytest
