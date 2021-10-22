@@ -160,7 +160,7 @@ $(document).ready(function(){
                         $("p.text1").text(p1);
                         $("p.text2").text(p2);
                         function index() {
-                            window.location.href = "index.html";
+                            window.location.href = "http://127.0.0.1:5000";
                         }
                         function s1() {
                             $(".success1").css("display", "");
@@ -319,7 +319,7 @@ $(document).ready(function(){
                                 $("p.text1").text(p1);
                                 $("p.text2").text(p2);
                                 function index() {
-                                    window.location.href = "index.html";
+                                    window.location.href = "http://127.0.0.1:5000";
                                 }
                                 function s1() {
                                     $(".success1").css("display", "");
@@ -414,7 +414,7 @@ $(document).ready(function(){
                                 $("p.text1").text(p1);
                                 $("p.text2").text(p2);
                                 function index() {
-                                    window.location.href = "index.html";
+                                    window.location.href = "http://127.0.0.1:5000";
                                 }
                                 function s1() {
                                     $(".success1").css("display", "");
@@ -591,7 +591,7 @@ $(document).ready(function(){
                         $("p.text1").text(p1);
                         $("p.text2").text(p2);
                         function index() {
-                            window.location.href = "index.html";
+                            window.location.href = "http://127.0.0.1:5000";
                         }
                         function s1() {
                             $(".success1").css("display", "");

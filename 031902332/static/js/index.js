@@ -1,11 +1,15 @@
 $(document).ready(function(){
     //初始化系统信息
     var $container = document.getElementById('container');
+    // 初始化牌堆
     var deck = Deck();
+    // 绑定标签
     deck.mount($container);
+    // 牌堆牌面翻转
     deck.flip();
+    // 牌堆出现效果
     deck.intro();
-
+    // 加载背景音乐，循环执行
     background_index();
     setInterval(background_index, 154 * 1000);
 

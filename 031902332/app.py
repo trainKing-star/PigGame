@@ -65,7 +65,6 @@ def index():
     """
     return render_template("index.html")
 
-
 @app.route("/play", methods=["POST"])
 def play():
     """
