@@ -231,22 +231,39 @@ def winner(token, room_id):
 
 
 def run(token, room_id, used, player_one, player_two, model, csv_one, csv_two):
+    """
+    游戏执行程序
+    :param token: 用户签名
+    :param room_id: 房间id
+    :param used: 已使用的牌堆
+    :param player_one: 玩家一的牌堆
+    :param player_two: 玩家二的牌堆
+    :param model: AI模型
+    :param csv_one: 玩家一对应的CSV文件
+    :param csv_two: 玩家二对应的CSV文件
+    """
+    # 循环直到游戏结束
     while True:
         pre_response = None
         r = None
+        # 循环请求上一步的接口，等待另一个玩家完成操作
         while True:
             response, your_true, last_msg = get_last(token, room_id)
+            # 游戏结束返回
             if response is None and your_true is None and last_msg is None:
                 return
+            # 游戏刚开始如果是自己的回合就跳出，不是就下一次循环
             if len(response) == 1 and your_true:
                 break
             elif len(response) == 1 and not your_true:
                 continue
+            # 作用是多次循环同样的请求时，只有第一次请求会更新所有的牌堆
             if response[2] == pre_response:
                 continue
             if pre_response is None:
                 pre_response = response[2]
 
+            # 更新对应玩家的牌堆，是自己的回合就跳出，不是就下一次循环
             if your_true:
                 print(last_msg)
                 r = 0
@@ -257,41 +274,61 @@ def run(token, room_id, used, player_one, player_two, model, csv_one, csv_two):
                 r = 1
                 handle_response(response, player_one, used)
 
+        # 通过模型转化为type和card
         type, card = transform_use_model(used, player_one, player_two, model, csv_one, csv_two, r)
+        # 执行自己的操作请求
         response = emit_action(token, room_id, type=type, card=card)
+        # 游戏结束，跳出循环
         if not response:
             print("游戏结束，退出")
             break
 
 
 def to_csv(csv):
+    """
+    将玩家对应的CSV内容写入文件中
+    :param csv: 玩家的CSV文件内存
+    """
+    # 读取总数据集
     data = pd.read_csv("../data/play.csv")
+    # 链接数据集
     data = pd.concat([data, csv], axis=0)
+    # 丢弃重复行
     data = data.drop_duplicates()
+    # nan填充为0
     data = data.fillna(0)
+    # 重新写入文件
     data.to_csv("../data/play.csv", index=False)
 
 
 if __name__ == "__main__":
     student_id = input("请输入你的学号：")
     password = input("请输入你的密码：")
+    # 玩家一牌堆
     player_one = {"S": [], "H": [], "C": [], "D": []}
+    # 玩家二牌堆
     player_two = {"S": [], "H": [], "C": [], "D": []}
+    # 已使用的牌堆
     used = {"S": [], "H": [], "C": [], "D": [], "head": 0}
+    # 加载模型
     model = load_model("../models/origin.tar")
+    # 初始化CSV记录类
     csv_one = Record()
     csv_two = Record()
-
+    # 登录
     token = login(student_id, password)
+    # 创建房间
     room_id = create_root(token)
+    # 执行游戏
     run(token, room_id, used, player_one, player_two, model, csv_one, csv_two)
-
+    # 获取胜利结果
     win = winner(token, room_id)
+    # 根据胜利结果，将胜利玩家的每步操作写入数据集
     if win == 0:
         to_csv(csv_one.data)
     else:
         to_csv(csv_two.data)
-
+    # 进行微调
     main("../data/play.csv", "../models", checkpoint="../models/origin.tar", epochs=1)
 
 
