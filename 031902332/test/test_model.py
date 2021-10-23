@@ -40,7 +40,7 @@ def test_model():
         {'action': 1}
     ]
     # 加载模型
-    model = load_model("../models/best.pth.tar")
+    model = load_model("../models/origin.tar")
     for index in range(len(json_dict)):
         result = use_model(model=model, json_dict=json_dict[index])
         # 判断模型输出是否符合原模型输出

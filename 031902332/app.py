@@ -10,7 +10,7 @@ cors = CORS(app)
 # 允许socket
 socket = SocketIO(app, cors_allowed_origins="*")
 # 加载模型
-model = load_model("models/best.pth.tar")
+model = load_model("models/origin.tar")
 # 因为python的特性，所有这个a是线程安全的
 client = 0
 

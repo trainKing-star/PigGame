@@ -41,4 +41,4 @@ def main(test_file, checkpoint_file,
 
 
 if __name__ == "__main__":
-    main("../data/data10000.csv", "models/best.pth.tar")
+    main("../data/data.csv", "../models/best.pth.tar")

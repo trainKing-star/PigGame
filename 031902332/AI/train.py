@@ -123,7 +123,7 @@ def main(train_file, target_dir,
     # -------------------- 训练迭代 ------------------- #
     print("\n", 20 * "=", "训练模型时设备: {}".format(device), 20 * "=")
     patience_counter = 0
-    for epoch in range(start_epoch, epochs + 1):
+    for epoch in range(start_epoch, start_epoch + epochs):
         epochs_count.append(epoch)
         print("* 训练epoch {}:".format(epoch))
         epoch_time, epoch_loss, epoch_accuracy = train(model, train_loader, optimizer, max_grad_norm)

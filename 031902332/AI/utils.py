@@ -93,7 +93,7 @@ def split_origin_data(input_file, output_file):
     # 每一组打乱数据后按指定数量筛选数据
     for k, v in d.groups.items():
         sample_data = shuffle(data.loc[v])
-        new_data.append(sample_data.iloc[:53000])
+        new_data.append(sample_data.iloc[:100])
     # 连接数据
     new_data = pd.concat(new_data, ignore_index=True)
     new_data = new_data.reset_index(drop=True)

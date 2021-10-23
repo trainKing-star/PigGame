@@ -1,3 +1,4 @@
+torch==1.9.0
 pandas==1.2.4
 transformers==4.9.2
 scikit-learn==0.20.4
